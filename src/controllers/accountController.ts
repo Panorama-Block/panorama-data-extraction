@@ -6,6 +6,7 @@ import {
   fetchAccountSTXBalance,
 } from "../services/accountService";
 import logger from "../utils/logger";
+import { log } from "console";
 
 export const getUserBalances = async (
   req: Request,
@@ -45,6 +46,7 @@ export const getInboundSTXTransfers = async (
 ): Promise<void> => {
   try {
     const address = req.params.address;
+    logger.info(`Recebendo transferências de STX para o endereço ${address}`);
     const data = await fetchInboundSTXTransfers(address);
     res.json(data);
   } catch (error) {

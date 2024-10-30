@@ -21,12 +21,13 @@ export interface InboundSTXTransfers {
   offset: number;
   total: number;
   results: Array<{
-    tx_id: string;
     sender: string;
-    recipient: string;
     amount: string;
-    memo: string | null;
+    memo: string;
     block_height: number;
+    tx_id: string;
+    transfer_type: string;
+    tx_index: number;
   }>;
 }
 

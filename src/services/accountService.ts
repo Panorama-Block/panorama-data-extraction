@@ -63,7 +63,7 @@ export const fetchAccountAssets = async (
       "EX",
       CACHE_EXPIRATION
     );
-    logger.info(`Ativos da conta ${address} armazenados no cache Redis.`);
+
     return response.data;
   } catch (error) {
     logger.error(
@@ -90,6 +90,7 @@ export const fetchInboundSTXTransfers = async (
     const response = await axios.get<InboundSTXTransfers>(
       `${process.env.BASE_URL}/extended/v1/address/${address}/stx_inbound`
     );
+    logger.info(`ss`)
     await redis.set(
       cacheKey,
       JSON.stringify(response.data),
@@ -126,7 +127,6 @@ export const fetchAccountSTXBalance = async (
     const response = await axios.get<AccountSTXBalance>(
       `${process.env.BASE_URL}/extended/v1/address/${address}/stx`
     );
-    logger.info(`Balanço STX da conta ${address} obtido da API.`);
     await redis.set(
       cacheKey,
       JSON.stringify(response.data),

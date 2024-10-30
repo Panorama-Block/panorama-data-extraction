@@ -3,6 +3,7 @@ import {
   getBlocks,
   getBlockByHash,
   getAverageBlockTime,
+  getPreviousBlocks,
 } from "../controllers/blockController";
 
 const router = Router();
@@ -78,5 +79,36 @@ router.get("/:hash", getBlockByHash);
  *                   type: integer
  */
 router.get("/average-times", getAverageBlockTime);
+
+/**
+ * @swagger
+ * /api/blocks/previous/{hash}:
+ *   get:
+ *     summary: Retorna blocos anteriores a partir de um hash inicial
+ *     parameters:
+ *       - in: path
+ *         name: hash
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Hash do bloco inicial
+ *       - in: query
+ *         name: numberOfBlocks
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Número de blocos anteriores a serem retornados (padrão: 10)
+ *     responses:
+ *       200:
+ *         description: Lista de blocos anteriores
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Block'
+ */
+router.get("/previous/:hash", getPreviousBlocks);
 
 export default router;
