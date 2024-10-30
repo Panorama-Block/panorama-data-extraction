@@ -5,6 +5,8 @@
     "@types/ioredis": "^5.0.0",
     "@types/node": "^22.8.1",
     "@types/node-cron": "^3.0.11",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
     "@types/winston": "^2.4.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
@@ -19,6 +21,9 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "kafkajs": "^2.2.4",
-    "node-cron": "^3.0.3"
+    "node-cron": "^3.0.3",
+    "swagger": "^0.7.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }

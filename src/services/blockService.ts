@@ -31,7 +31,7 @@ export const fetchBlockByHash = async (hash: string): Promise<Block> => {
   if (cachedData) return JSON.parse(cachedData);
 
   const response = await axios.get<Block>(
-    `${process.env.BASE_URL}/extended/v2/block/${hash}`
+    `${process.env.BASE_URL}/extended/v2/blocks/${hash}`
   );
   await redis.set(
     cacheKey,
@@ -42,15 +42,21 @@ export const fetchBlockByHash = async (hash: string): Promise<Block> => {
   return response.data;
 };
 
-export const fetchAverageBlockTime =
-  async (): Promise<AverageBlockTimeResponse> => {
+export const fetchAverageBlockTime = async (): Promise<AverageBlockTimeResponse> => {
     const cacheKey = CACHE_KEYS.AVERAGE_BLOCK_TIME;
+
+    logger.info("Fetching average block time from API");
+
     const cachedData = await redis.get(cacheKey);
     if (cachedData) return JSON.parse(cachedData);
 
+    logger.info("Fetching average block time from API 2");
+
     const response = await axios.get<AverageBlockTimeResponse>(
-      `${process.env.BASE_URL}/extended/v2/blocks/average_block_time`
+      `${process.env.BASE_URL}/extended/v2/blocks/average-times`
     );
+
+    logger.info("Fetching average block time from API 3");
     await redis.set(
       cacheKey,
       JSON.stringify(response.data),

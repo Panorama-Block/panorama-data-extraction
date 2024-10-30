@@ -35,6 +35,7 @@ export const getAverageBlockTime = async (
   res: Response
 ): Promise<void> => {
   try {
+    logger.info("Fetching average block time from API controller");
     const data = await fetchAverageBlockTime();
     res.json(data);
   } catch (error) {
