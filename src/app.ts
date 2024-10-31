@@ -4,6 +4,7 @@ import accountRoutes from "./routes/accountRoutes";
 import cacheMiddleware from "./middlewares/cacheMiddleware";
 import { setupSwagger } from "./config/swagger";
 import transactionRoutes from "./routes/transactionRoutes";
+import tokenRoutes from "./routes/tokenRoutes";
 
 const app: Application = express();
 
@@ -16,5 +17,6 @@ setupSwagger(app);
 app.use("/api/blocks", cacheMiddleware, blockRoutes);
 app.use("/api/accounts", cacheMiddleware, accountRoutes);
 app.use("/api/transactions", transactionRoutes);
+app.use("/api/tokens", cacheMiddleware, tokenRoutes);
 
 export default app;
