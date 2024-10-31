@@ -239,6 +239,88 @@ const swaggerOptions = {
             },
           },
         },
+        NFTokenMint: {
+          type: "object",
+          properties: {
+            limit: { type: "integer" },
+            offset: { type: "integer" },
+            total: { type: "integer" },
+            results: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  tx_id: { type: "string" },
+                  block_height: { type: "integer" },
+                  block_hash: { type: "string" },
+                  contract_id: { type: "string" },
+                  token_id: { type: "string" },
+                  recipient: { type: "string" },
+                },
+              },
+            },
+          },
+        },
+        FungibleTokenHoldersResponse: {
+          type: "object",
+          properties: {
+            limit: { type: "integer" },
+            offset: { type: "integer" },
+            total: { type: "integer" },
+            results: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  address: { type: "string" },
+                  balance: { type: "string" },
+                },
+              },
+            },
+          },
+        },
+        NFTokenHoldingsResponse: {
+          type: "object",
+          properties: {
+            limit: { type: "integer" },
+            offset: { type: "integer" },
+            total: { type: "integer" },
+            results: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  token_id: { type: "string" },
+                  contract_id: { type: "string" },
+                  holder: { type: "string" },
+                },
+              },
+            },
+          },
+        },
+        NFTokenHistory: {
+          type: "object",
+          properties: {
+            limit: { type: "integer" },
+            offset: { type: "integer" },
+            total: { type: "integer" },
+            results: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  tx_id: { type: "string" },
+                  block_height: { type: "integer" },
+                  block_hash: { type: "string" },
+                  contract_id: { type: "string" },
+                  token_id: { type: "string" },
+                  sender: { type: "string" },
+                  recipient: { type: "string" },
+                },
+              },
+            },
+          },
+        },
       },
     },
   },
