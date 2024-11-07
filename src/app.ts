@@ -16,7 +16,7 @@ setupSwagger(app);
 // Definindo as rotas
 app.use("/api/blocks", cacheMiddleware, blockRoutes);
 app.use("/api/accounts", cacheMiddleware, accountRoutes);
-app.use("/api/transactions", transactionRoutes);
+app.use("/api/transactions", cacheMiddleware, transactionRoutes);
 app.use("/api/tokens", cacheMiddleware, tokenRoutes);
 
 export default app;

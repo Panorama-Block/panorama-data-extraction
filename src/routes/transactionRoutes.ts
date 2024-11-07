@@ -1,78 +1,133 @@
 import { Router } from "express";
 import {
-  getNFTMints,
-  getFungibleTokenHolders,
-  getNFTHoldings,
-  getNFTokenHistory,
-} from "../controllers/tokenController";
+  getRecentTransactions,
+  getMempoolTransactions,
+  getTransactionEvents,
+  getTransaction,
+  getTransactionDetails,
+  getTransactionsByBlock,
+  getMempoolStats,
+} from "../controllers/transactionController";
 
 const router = Router();
 
 /**
  * @swagger
- * /api/tokens/nft/mints:
+ * /api/transactions/recent:
  *   get:
- *     summary: Retorna mintagens de NFTs
+ *     summary: Retorna transações recentes
  *     responses:
  *       200:
- *         description: Lista de mintagens de NFTs
+ *         description: Lista de transações recentes
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/NFTokenMint'
+ *               $ref: '#/components/schemas/TransactionsByBlock'
  */
-router.get("/nft/mints", getNFTMints);
+router.get("/recent", getRecentTransactions);
 
 /**
  * @swagger
- * /api/tokens/ft/{token}/holders:
+ * /api/transactions/mempool:
  *   get:
- *     summary: Retorna os detentores de um token fungível específico
+ *     summary: Retorna transações na mempool
+ *     responses:
+ *       200:
+ *         description: Lista de transações na mempool
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TransactionsByBlock'
+ */
+router.get("/mempool", getMempoolTransactions);
+
+/**
+ * @swagger
+ * /api/transactions/events:
+ *   get:
+ *     summary: Retorna eventos de transações
+ *     responses:
+ *       200:
+ *         description: Lista de eventos de transações
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TransactionEvents'
+ */
+router.get("/events", getTransactionEvents);
+
+/**
+ * @swagger
+ * /api/transactions/{txId}:
+ *   get:
+ *     summary: Retorna uma transação específica
  *     parameters:
  *       - in: path
- *         name: token
+ *         name: txId
  *         required: true
  *         schema:
  *           type: string
- *         description: ID do token fungível
+ *         description: ID da transação
  *     responses:
  *       200:
- *         description: Lista de detentores do token fungível
+ *         description: Detalhes de uma transação específica
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/FungibleTokenHoldersResponse'
+ *               $ref: '#/components/schemas/Transaction'
  */
-router.get("/ft/:token/holders", getFungibleTokenHolders);
+router.get("/:txId", getTransaction);
 
 /**
  * @swagger
- * /api/tokens/nft/holdings:
+ * /api/transactions/details:
  *   get:
- *     summary: Retorna todos os NFTs detidos
+ *     summary: Retorna detalhes de múltiplas transações
  *     responses:
  *       200:
- *         description: Lista de NFTs detidos
+ *         description: Detalhes de transações
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/NFTokenHoldingsResponse'
+ *               $ref: '#/components/schemas/Transaction'
  */
-router.get("/nft/holdings", getNFTHoldings);
+router.get("/details", getTransactionDetails);
 
 /**
  * @swagger
- * /api/tokens/nft/history:
+ * /api/transactions/block/{blockHash}:
  *   get:
- *     summary: Retorna o histórico de tokens não fungíveis
+ *     summary: Retorna transações de um bloco específico
+ *     parameters:
+ *       - in: path
+ *         name: blockHash
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Hash do bloco
  *     responses:
  *       200:
- *         description: Histórico de tokens não fungíveis
+ *         description: Lista de transações do bloco especificado
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/NFTokenHistory'
+ *               $ref: '#/components/schemas/TransactionsByBlock'
  */
-router.get("/nft/history", getNFTokenHistory);
+router.get("/block/:blockHash", getTransactionsByBlock);
+
+/**
+ * @swagger
+ * /api/transactions/mempool/stats:
+ *   get:
+ *     summary: Retorna estatísticas da mempool
+ *     responses:
+ *       200:
+ *         description: Estatísticas da mempool
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TransactionStats'
+ */
+router.get("/mempool/stats", getMempoolStats);
 
 export default router;

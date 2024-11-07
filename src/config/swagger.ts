@@ -239,6 +239,25 @@ const swaggerOptions = {
             },
           },
         },
+        FungibleTokenHoldersResponse: {
+          type: "object",
+          properties: {
+            limit: { type: "integer" },
+            offset: { type: "integer" },
+            total: { type: "integer" },
+            total_supply: { type: "string" },
+            results: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  address: { type: "string" },
+                  balance: { type: "string" }
+                }
+              }
+            }
+          }
+        },
         NFTokenMint: {
           type: "object",
           properties: {
@@ -250,30 +269,16 @@ const swaggerOptions = {
               items: {
                 type: "object",
                 properties: {
-                  tx_id: { type: "string" },
-                  block_height: { type: "integer" },
-                  block_hash: { type: "string" },
-                  contract_id: { type: "string" },
-                  token_id: { type: "string" },
                   recipient: { type: "string" },
-                },
-              },
-            },
-          },
-        },
-        FungibleTokenHoldersResponse: {
-          type: "object",
-          properties: {
-            limit: { type: "integer" },
-            offset: { type: "integer" },
-            total: { type: "integer" },
-            results: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  address: { type: "string" },
-                  balance: { type: "string" },
+                  event_index: { type: "integer" },
+                  value: {
+                    type: "object",
+                    properties: {
+                      hex: { type: "string" },
+                      repr: { type: "string" },
+                    },
+                  },
+                  tx_id: { type: "string" },
                 },
               },
             },
@@ -290,9 +295,16 @@ const swaggerOptions = {
               items: {
                 type: "object",
                 properties: {
-                  token_id: { type: "string" },
-                  contract_id: { type: "string" },
-                  holder: { type: "string" },
+                  asset_identifier: { type: "string" },
+                  value: {
+                    type: "object",
+                    properties: {
+                      hex: { type: "string" },
+                      repr: { type: "string" },
+                    },
+                  },
+                  block_height: { type: "string" },
+                  tx_id: { type: "string" },
                 },
               },
             },
@@ -309,13 +321,11 @@ const swaggerOptions = {
               items: {
                 type: "object",
                 properties: {
-                  tx_id: { type: "string" },
-                  block_height: { type: "integer" },
-                  block_hash: { type: "string" },
-                  contract_id: { type: "string" },
-                  token_id: { type: "string" },
                   sender: { type: "string" },
                   recipient: { type: "string" },
+                  event_index: { type: "integer" },
+                  asset_event_type: { type: "string" },
+                  tx_id: { type: "string" },
                 },
               },
             },

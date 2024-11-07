@@ -1,12 +1,46 @@
 import { Router } from "express";
 import {
   getNFTMints,
-  getFungibleTokenHolders,
   getNFTHoldings,
   getNFTokenHistory,
+  getFungibleTokenHolders,
 } from "../controllers/tokenController";
 
 const router = Router();
+
+/**
+ * @swagger
+ * /api/tokens/ft/{token}/holders:
+ *   get:
+ *     summary: Retorna a lista de holders de um token fungível específico
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador do token fungível
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 50
+ *         description: Número máximo de holders para buscar (opcional)
+ *       - in: query
+ *         name: offset
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *         description: Índice do primeiro holder a buscar (opcional)
+ *     responses:
+ *       200:
+ *         description: Lista de holders do token fungível
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/FungibleTokenHoldersResponse'
+ */
+router.get("/ft/:token/holders", getFungibleTokenHolders);
 
 /**
  * @swagger
@@ -25,74 +59,32 @@ router.get("/nft/mints", getNFTMints);
 
 /**
  * @swagger
- * /api/tokens/fungible/{contractId}/holders:
+ * /api/tokens/nft/holdings:
  *   get:
- *     summary: Retorna os detentores de um token fungível específico
- *     parameters:
- *       - in: path
- *         name: contractId
- *         required: true
- *         schema:
- *           type: string
- *         description: ID do contrato do token fungível
+ *     summary: Retorna todos os NFTs detidos
  *     responses:
  *       200:
- *         description: Lista de detentores do token fungível
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/FungibleTokenHoldersResponse'
- */
-router.get("/fungible/:contractId/holders", getFungibleTokenHolders);
-
-/**
- * @swagger
- * /api/tokens/nft/{address}/holdings:
- *   get:
- *     summary: Retorna os NFTs detidos por um endereço específico
- *     parameters:
- *       - in: path
- *         name: address
- *         required: true
- *         schema:
- *           type: string
- *         description: Endereço da conta
- *     responses:
- *       200:
- *         description: Lista de NFTs detidos pelo endereço
+ *         description: Lista de NFTs detidos
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/NFTokenHoldingsResponse'
  */
-router.get("/nft/:address/holdings", getNFTHoldings);
+router.get("/nft/holdings", getNFTHoldings);
 
 /**
  * @swagger
- * /api/tokens/nft/{contractId}/history/{tokenId}:
+ * /api/tokens/nft/history:
  *   get:
- *     summary: Retorna o histórico de um token não fungível específico
- *     parameters:
- *       - in: path
- *         name: contractId
- *         required: true
- *         schema:
- *           type: string
- *         description: ID do contrato do token não fungível
- *       - in: path
- *         name: tokenId
- *         required: true
- *         schema:
- *           type: string
- *         description: ID do token
+ *     summary: Retorna o histórico de tokens não fungíveis
  *     responses:
  *       200:
- *         description: Histórico do token não fungível
+ *         description: Histórico de tokens não fungíveis
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/NFTokenHistory'
  */
-router.get("/nft/:contractId/history/:tokenId", getNFTokenHistory);
+router.get("/nft/history", getNFTokenHistory);
 
 export default router;

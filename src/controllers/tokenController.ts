@@ -1,24 +1,11 @@
 import { Request, Response } from "express";
 import {
   fetchNFTMints,
-  fetchFungibleTokenHolders,
   fetchNFTHoldings,
   fetchNFTokenHistory,
+  fetchFungibleTokenHolders
 } from "../services/tokenService";
 import logger from "../utils/logger";
-
-export const getNFTMints = async (
-  _req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const data = await fetchNFTMints();
-    res.json(data);
-  } catch (error) {
-    logger.error(`Error processing NFT mints: ${error}`);
-    res.status(500).json({ error: "Error processing NFT mints" });
-  }
-};
 
 export const getFungibleTokenHolders = async (
   req: Request,
@@ -26,22 +13,86 @@ export const getFungibleTokenHolders = async (
 ): Promise<void> => {
   try {
     const { token } = req.params;
-    const data = await fetchFungibleTokenHolders(token);
+    const limit = Number(req.query.limit) || 50;
+    const offset = Number(req.query.offset) || 0;
+
+    if (!token || typeof token !== "string") {
+      res.status(400).json({
+        error: "Parâmetro 'token' é obrigatório e deve ser uma string",
+      });
+      return;
+    }
+
+    const data = await fetchFungibleTokenHolders(token, limit, offset);
     res.json(data);
   } catch (error) {
-    logger.error(
-      `Error processing fungible token holders for ${req.params.token}: ${error}`
-    );
+    logger.error(`Error processing fungible token holders: ${error}`);
     res.status(500).json({ error: "Error processing fungible token holders" });
   }
 };
 
-export const getNFTHoldings = async (
-  _req: Request,
+export const getNFTMints = async (
+  req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const data = await fetchNFTHoldings();
+    const { asset_identifier } = req.query;
+    const limit = Number(req.query.limit) || 50;
+    const offset = Number(req.query.offset) || 0;
+    const unanchored = req.query.unanchored === "true";
+    const tx_metadata = req.query.tx_metadata === "true";
+
+    if (!asset_identifier || typeof asset_identifier !== "string") {
+      res.status(400).json({
+        error:
+          "Parâmetro 'asset_identifier' é obrigatório e deve ser uma string",
+      });
+      return;
+    }
+
+    const data = await fetchNFTMints(
+      asset_identifier,
+      limit,
+      offset,
+      unanchored,
+      tx_metadata
+    );
+    res.json(data);
+  } catch (error) {
+    logger.error(`Error processing NFT mints: ${error}`);
+    res.status(500).json({ error: "Error processing NFT mints" });
+  }
+};
+
+export const getNFTHoldings = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { principal } = req.query;
+    const asset_identifiers = req.query.asset_identifiers
+      ? (req.query.asset_identifiers as string).split(",")
+      : [];
+    const limit = Number(req.query.limit) || 50;
+    const offset = Number(req.query.offset) || 0;
+    const unanchored = req.query.unanchored === "true";
+    const tx_metadata = req.query.tx_metadata === "true";
+
+    if (!principal || typeof principal !== "string") {
+      res.status(400).json({
+        error: "Parâmetro 'principal' é obrigatório e deve ser uma string",
+      });
+      return;
+    }
+
+    const data = await fetchNFTHoldings(
+      principal,
+      asset_identifiers,
+      limit,
+      offset,
+      unanchored,
+      tx_metadata
+    );
     res.json(data);
   } catch (error) {
     logger.error(`Error processing NFT holdings: ${error}`);
@@ -50,11 +101,35 @@ export const getNFTHoldings = async (
 };
 
 export const getNFTokenHistory = async (
-  _req: Request,
+  req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const data = await fetchNFTokenHistory();
+    const {
+      asset_identifier,
+      value,
+    } = req.query;
+
+    if (!asset_identifier || typeof asset_identifier !== "string") {
+      res.status(400).json({
+        error:
+          "Parâmetro 'asset_identifier' é obrigatório e deve ser uma string",
+      });
+      return;
+    }
+
+    if (!value || typeof value !== "string") {
+      res.status(400).json({
+        error:
+          "Parâmetro 'value' é obrigatório e deve ser uma string hexadecimal",
+      });
+      return;
+    }
+
+    const data = await fetchNFTokenHistory(
+      asset_identifier,
+      value
+    );
     res.json(data);
   } catch (error) {
     logger.error(`Error processing NFT token history: ${error}`);
