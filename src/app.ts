@@ -5,7 +5,7 @@ import cacheMiddleware from "./middlewares/cacheMiddleware";
 import { setupSwagger } from "./config/swagger";
 import transactionRoutes from "./routes/transactionRoutes";
 import tokenRoutes from "./routes/tokenRoutes";
-
+import poxRoutes from "./routes/poxRoutes";
 const app: Application = express();
 
 app.use(express.json());
@@ -18,5 +18,6 @@ app.use("/api/blocks", cacheMiddleware, blockRoutes);
 app.use("/api/accounts", cacheMiddleware, accountRoutes);
 app.use("/api/transactions", cacheMiddleware, transactionRoutes);
 app.use("/api/tokens", cacheMiddleware, tokenRoutes);
+app.use("/api/pox", cacheMiddleware, poxRoutes);
 
 export default app;

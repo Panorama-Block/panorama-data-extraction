@@ -252,11 +252,11 @@ const swaggerOptions = {
                 type: "object",
                 properties: {
                   address: { type: "string" },
-                  balance: { type: "string" }
-                }
-              }
-            }
-          }
+                  balance: { type: "string" },
+                },
+              },
+            },
+          },
         },
         NFTokenMint: {
           type: "object",
@@ -326,6 +326,86 @@ const swaggerOptions = {
                   event_index: { type: "integer" },
                   asset_event_type: { type: "string" },
                   tx_id: { type: "string" },
+                },
+              },
+            },
+          },
+        },
+        PoXCycle: {
+          type: "object",
+          properties: {
+            block_height: { type: "integer" },
+            index_block_hash: { type: "string" },
+            cycle_number: { type: "integer" },
+            total_weight: { type: "integer" },
+            total_stacked_amount: { type: "string" },
+            total_signers: { type: "integer" },
+          },
+        },
+        PoXCyclesResponse: {
+          type: "object",
+          properties: {
+            limit: { type: "integer" },
+            offset: { type: "integer" },
+            total: { type: "integer" },
+            results: {
+              type: "array",
+              items: { $ref: "#/components/schemas/PoXCycle" },
+            },
+          },
+        },
+        PoXSignersResponse: {
+          type: "object",
+          properties: {
+            limit: { type: "integer" },
+            offset: { type: "integer" },
+            total: { type: "integer" },
+            results: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  signing_key: { type: "string" },
+                  signer_address: { type: "string" },
+                  weight: { type: "integer" },
+                  stacked_amount: { type: "string" },
+                  weight_percent: { type: "number" },
+                  stacked_amount_percent: { type: "number" },
+                  solo_stacker_count: { type: "integer" },
+                  pooled_stacker_count: { type: "integer" },
+                },
+              },
+            },
+          },
+        },
+        PoXSignerDetails: {
+          type: "object",
+          properties: {
+            signing_key: { type: "string" },
+            signer_address: { type: "string" },
+            weight: { type: "integer" },
+            stacked_amount: { type: "string" },
+            weight_percent: { type: "number" },
+            stacked_amount_percent: { type: "number" },
+            solo_stacker_count: { type: "integer" },
+            pooled_stacker_count: { type: "integer" },
+          },
+        },
+        PoXStackersResponse: {
+          type: "object",
+          properties: {
+            limit: { type: "integer" },
+            offset: { type: "integer" },
+            total: { type: "integer" },
+            results: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  stacker_address: { type: "string" },
+                  stacked_amount: { type: "string" },
+                  pox_address: { type: "string" },
+                  stacker_type: { type: "string", enum: ["solo", "pooled"] },
                 },
               },
             },
